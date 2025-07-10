@@ -1,0 +1,7 @@
+[INFO] Found /home/ayshersherfey/sec_validation/filings_list.csv. Downloading filings...
+[INFO] Already exists: 320193-000032019324000066.zip
+[INFO] Already exists: 789019-000078901924000022.zip
+[INFO] Validating: /home/ayshersherfey/sec_validation/filings/320193-000032019324000066.zip
+Cleaned log written to /home/ayshersherfey/sec_validation/logs/320193-000032019324000066_log_cleaned.json
+[INFO] Validating: /home/ayshersherfey/sec_validation/filings/789019-000078901924000022.zip
+Cleaned log written to /home/ayshersherfey/sec_validation/logs/789019-000078901924000022_log_cleaned.json
