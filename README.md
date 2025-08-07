@@ -17,3 +17,18 @@ Automated pipeline to download, validate, clean, summarize, and alert on SEC EDG
 
 ## License
 MIT
+
+# Fireworks
+
+**Fireworks** is an automated SEC filing validator built by Ronnie Lee Sherfey Jr under Aysher Intelligence Agency.
+
+### Features
+
+- Validates investment-related SEC files using Arelle
+- Saves detailed validation logs and summaries
+- Automatically pushes updates to GitHub twice daily
+- Built with Linux, Bash, Python
+
+---
+
+**Maintainer:** rsherfey@aysherintel.com
