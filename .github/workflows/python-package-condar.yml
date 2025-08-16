@@ -1,5 +1,7 @@
 name: Python Package using Conda
 
+permissions:
+  contents: read
 on: [push]
 
 jobs:
