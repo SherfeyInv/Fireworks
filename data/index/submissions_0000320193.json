@@ -2,7 +2,7 @@
   "source": "sec.submissions",
   "entity_cik": "0000320193",
   "request_url": "https://data.sec.gov/submissions/CIK0000320193.json",
-  "discovered_at": "2026-08-13T23:00:00.332325+00:00",
+  "discovered_at": "2026-08-13T23:04:00.099503+00:00",
   "status": "success",
   "content_type": "application/json",
   "error": null,
