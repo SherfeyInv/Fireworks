@@ -5,7 +5,7 @@ import hashlib
 import json
 import urllib.request
 
-from .config import load_sources, project_root
+from .config import project_root
 from .filing_discovery import discover_filings
 
 
@@ -43,69 +43,62 @@ def _download(url: str, destination: Path) -> tuple[str, int]:
     destination.write_bytes(data)
 
     sha256 = hashlib.sha256(data).hexdigest()
+
     return sha256, len(data)
+
+
+def download_filing(record) -> DownloadRecord:
+    normalized_cik = record.entity_cik.zfill(10)
+    accession_clean = record.accession_number.replace("-", "")
+
+    filing_dir = (
+        project_root()
+        / "data"
+        / "raw"
+        / normalized_cik
+        / accession_clean
+    )
+
+    destination = filing_dir / Path(record.primary_document).name
+
+    try:
+        sha256, size_bytes = _download(
+            record.primary_doc_url,
+            destination,
+        )
+
+        return DownloadRecord(
+            entity_cik=record.entity_cik,
+            accession_number=record.accession_number,
+            filing_date=record.filing_date,
+            form=record.form,
+            filing_url=record.filing_url,
+            local_path=str(destination),
+            sha256=sha256,
+            size_bytes=size_bytes,
+            downloaded_at=datetime.now(timezone.utc).isoformat(),
+            status="success",
+        )
+
+    except Exception as exc:
+        return DownloadRecord(
+            entity_cik=record.entity_cik,
+            accession_number=record.accession_number,
+            filing_date=record.filing_date,
+            form=record.form,
+            filing_url=record.filing_url,
+            local_path=str(destination),
+            sha256="",
+            size_bytes=0,
+            downloaded_at=datetime.now(timezone.utc).isoformat(),
+            status="error",
+            error=str(exc),
+        )
 
 
 def download_filings(cik: str) -> list[DownloadRecord]:
     records = discover_filings(cik)
-
-    output = []
-
-    for record in records:
-        normalized_cik = record.entity_cik.lstrip("0") or "0"
-        accession_clean = record.accession_number.replace("-", "")
-
-        filing_dir = (
-            project_root()
-            / "data"
-            / "raw"
-            / normalized_cik
-            / accession_clean
-        )
-
-        filename = Path(record.primary_document).name
-
-        destination = filing_dir / filename
-
-        try:
-            sha256, size_bytes = _download(
-                record.primary_doc_url,
-                destination,
-            )
-
-            output.append(
-                DownloadRecord(
-                    entity_cik=record.entity_cik,
-                    accession_number=record.accession_number,
-                    filing_date=record.filing_date,
-                    form=record.form,
-                    filing_url=record.filing_url,
-                    local_path=str(destination),
-                    sha256=sha256,
-                    size_bytes=size_bytes,
-                    downloaded_at=datetime.now(timezone.utc).isoformat(),
-                    status="success",
-                )
-            )
-
-        except Exception as exc:
-            output.append(
-                DownloadRecord(
-                    entity_cik=record.entity_cik,
-                    accession_number=record.accession_number,
-                    filing_date=record.filing_date,
-                    form=record.form,
-                    filing_url=record.filing_url,
-                    local_path=str(destination),
-                    sha256="",
-                    size_bytes=0,
-                    downloaded_at=datetime.now(timezone.utc).isoformat(),
-                    status="error",
-                    error=str(exc),
-                )
-            )
-
-    return output
+    return [download_filing(record) for record in records]
 
 
 def save_download_index(cik: str) -> Path:
