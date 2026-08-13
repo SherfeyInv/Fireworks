@@ -1,0 +1,72 @@
+sec:
+  name: "U.S. Securities and Exchange Commission"
+  enabled: true
+
+  submissions:
+    enabled: true
+    base_url: "https://data.sec.gov/submissions/"
+
+  companyfacts:
+    enabled: true
+    base_url: "https://data.sec.gov/api/xbrl/companyfacts/"
+
+  companyconcept:
+    enabled: true
+    base_url: "https://data.sec.gov/api/xbrl/companyconcept/"
+
+  archives:
+    enabled: true
+    base_url: "https://www.sec.gov/Archives/"
+
+  data_files:
+    enabled: true
+    base_url: "https://www.sec.gov/files/dera/data/"
+
+  user_agent_required: true
+
+sec_edgar:
+  enabled: true
+  discover_filings: true
+  download_filing_packages: true
+  retain_original_files: true
+
+xbrl:
+  enabled: true
+  validate_with_arelle: true
+  retain_instance_documents: true
+  retain_taxonomy_files: true
+
+csv:
+  enabled: true
+  discover: true
+  retain_original_files: true
+
+html:
+  enabled: true
+  discover: true
+  retain_original_files: true
+
+xml:
+  enabled: true
+  discover: true
+  retain_original_files: true
+
+json:
+  enabled: true
+  discover: true
+  retain_original_files: true
+
+pdf:
+  enabled: true
+  discover: true
+  retain_original_files: true
+
+text:
+  enabled: true
+  discover: true
+  retain_original_files: true
+
+images:
+  enabled: true
+  discover: true
+  retain_original_files: true
