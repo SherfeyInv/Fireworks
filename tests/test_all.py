@@ -5,6 +5,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
 TESTS = [
     "tests.test_validate",
     "tests.test_provenance",
@@ -15,6 +18,7 @@ TESTS = [
     "tests.test_negative",
     "tests.test_file_inventory",
     "tests.test_identity",
+    "tests.test_correlation",
 ]
 
 
