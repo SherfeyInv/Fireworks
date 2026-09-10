@@ -8,6 +8,7 @@ TESTS = [
     "tests.test_extract_baseline",
     "tests.test_filing_download",
     "tests.test_version",
+    "tests.test_negative",
 ]
 
 
