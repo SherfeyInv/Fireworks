@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from fireworks.report import AuditFieldComparison, AuditSource, audit_dict, audit_text, build_audit_report, write_audit_json, write_audit_text
+from fireworks.report import AuditFieldComparison, AuditSource, audit_dict, audit_html, audit_text, build_audit_report, write_audit_html, write_audit_json, write_audit_text
 
 
 SHA256 = "fcd091e16f995a813d107e5da4d78eaa41eb64a16a4f884cef359502642da7c1"
@@ -198,3 +198,38 @@ def test_audit_text_preserves_both_sides_and_non_adjudication_language(tmp_path)
     output = tmp_path / "audit.txt"
     write_audit_text(report, output)
     assert output.read_text(encoding="utf-8") == text
+
+
+
+def test_audit_html_preserves_both_sides_and_non_adjudication_language(tmp_path):
+    local, authoritative = sources()
+    comparison = AuditFieldComparison(
+        field="issuer_cik",
+        local_value="0000320193",
+        authoritative_value="0000000000",
+        status="conflict",
+        local_source=local.identifier,
+        authoritative_source=authoritative.identifier,
+        detail="Values differ",
+    )
+    report = build_audit_report(
+        "SEC Form 4 identity verification",
+        local,
+        authoritative,
+        [comparison],
+        evidence_chain("CONFLICTING", "Evidence conflict detected"),
+        provenance(),
+        limitations=["Unavailable evidence remains unknown"],
+    )
+    html = audit_html(report)
+    assert "Local Evidence" in html
+    assert "Authoritative Evidence" in html
+    assert "0000320193" in html
+    assert "0000000000" in html
+    assert "Values differ" in html
+    assert "Unavailable evidence remains unknown" in html
+    assert "does not determine legal ownership" in html
+    assert "CONFLICTING" in html
+    output = tmp_path / "audit.html"
+    write_audit_html(report, output)
+    assert output.read_text(encoding="utf-8") == html
