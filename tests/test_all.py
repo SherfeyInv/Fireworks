@@ -19,6 +19,7 @@ TESTS = [
     "tests.test_file_inventory",
     "tests.test_identity",
     "tests.test_correlation",
+    "tests.test_evidence",
 ]
 
 
