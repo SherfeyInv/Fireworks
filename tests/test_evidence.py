@@ -257,3 +257,27 @@ def test_evidence_chain_marks_missing_sec_download_as_partial():
     assert chain.status == "PARTIALLY_VERIFIED"
     assert chain.sha256_match is False
     assert chain.sec_download_sha256 == ""
+
+
+def test_evidence_chain_identity_failure_takes_precedence():
+    extracted, correlation = correlation_and_extract()
+    failed_correlation = correlate(extracted, filing(entity_cik="0000000000"), "0001140361-26-035636", "2026-09-03")
+    chain = build_evidence_chain(extracted, filing(entity_cik="0000000000"), failed_correlation, validation_results(), sec_download=download_record(), package_results=package_results())
+    assert chain.status == "CONFLICTING"
+    assert chain.identity_status == "failed"
+
+
+def test_evidence_chain_package_mismatch_takes_precedence():
+    extracted, correlation = correlation_and_extract()
+    mismatched = [VerificationResult(path=str(FIXTURE), status="mismatch", expected_sha256=SHA256, actual_sha256="0" * 64, expected_size=3153, actual_size=3154, error="Size or SHA-256 mismatch")]
+    chain = build_evidence_chain(extracted, filing(), correlation, validation_results(), sec_download=download_record(), package_results=mismatched)
+    assert chain.status == "CONFLICTING"
+    assert chain.package_status == "mismatch"
+
+
+def test_evidence_chain_validation_failure_takes_precedence():
+    extracted, correlation = correlation_and_extract()
+    failed_validation = [ValidationResult("source_exists", "passed", str(FIXTURE)), ValidationResult("sha256", "passed", SHA256), ValidationResult("xml_parse", "failed", "malformed XML")]
+    chain = build_evidence_chain(extracted, filing(), correlation, failed_validation, sec_download=download_record(), package_results=package_results())
+    assert chain.status == "CONFLICTING"
+    assert chain.validation_status == "failed"
