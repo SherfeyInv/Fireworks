@@ -20,6 +20,7 @@ TESTS = [
     "tests.test_identity",
     "tests.test_correlation",
     "tests.test_evidence",
+    "tests.test_report",
 ]
 
 
