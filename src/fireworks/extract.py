@@ -5,7 +5,7 @@ import hashlib
 import json
 import xml.etree.ElementTree as ET
 
-from .provenance import create_provenance
+from .provenance import create_field_provenance, create_provenance
 from .version import PARSER_VERSION, SCHEMA_VERSION
 
 
@@ -92,6 +92,7 @@ def _transaction_value(shares, price):
 
 def extract_form4(source_path):
     path = Path(source_path)
+    source_sha256 = _sha256(path)
     if not path.exists():
         raise FileNotFoundError(f"Source filing does not exist: {path}")
 
@@ -105,6 +106,7 @@ def extract_form4(source_path):
     relationship = _find(owner, "reportingOwnerRelationship") if owner is not None else None
 
     transactions = []
+    field_provenance = []
     table = _find(root, "nonDerivativeTable")
 
     if table is not None:
@@ -164,9 +166,34 @@ def extract_form4(source_path):
             if _tag(node) == "footnote" and node.attrib.get("id"):
                 footnotes[node.attrib["id"]] = (node.text or "").strip()
 
+    field_provenance.extend([
+        create_field_provenance("issuer_name", "issuer/issuerName", _text(issuer, "issuerName") if issuer is not None else ""),
+        create_field_provenance("issuer_symbol", "issuer/issuerTradingSymbol", _text(issuer, "issuerTradingSymbol") if issuer is not None else ""),
+        create_field_provenance("issuer_cik", "issuer/issuerCik", _text(issuer, "issuerCik") if issuer is not None else ""),
+        create_field_provenance("owner_name", "reportingOwner/rptOwnerName", _text(owner, "rptOwnerName") if owner is not None else ""),
+        create_field_provenance("owner_cik", "reportingOwner/rptOwnerCik", _text(owner, "rptOwnerCik") if owner is not None else ""),
+        create_field_provenance("period_of_report", "periodOfReport", _text(root, "periodOfReport")),
+        create_field_provenance("document_type", "documentType", _text(root, "documentType")),
+        create_field_provenance("signature_name", "signatureName", _text(root, "signatureName")),
+        create_field_provenance("signature_date", "signatureDate", _text(root, "signatureDate")),
+    ])
+    for index, transaction in enumerate(transactions):
+        base = f"nonDerivativeTable/nonDerivativeTransaction[{index + 1}]"
+        field_provenance.extend([
+            create_field_provenance(f"transactions[{index}].security_title", f"{base}/securityTitle/value", transaction.security_title),
+            create_field_provenance(f"transactions[{index}].transaction_date", f"{base}/transactionDate/value", transaction.transaction_date),
+            create_field_provenance(f"transactions[{index}].transaction_code", f"{base}/transactionCoding/transactionCode", transaction.transaction_code),
+            create_field_provenance(f"transactions[{index}].shares", f"{base}/transactionAmounts/transactionShares/value", transaction.shares),
+            create_field_provenance(f"transactions[{index}].price_per_share", f"{base}/transactionAmounts/transactionPricePerShare/value", transaction.price_per_share),
+            create_field_provenance(f"transactions[{index}].acquired_disposed", f"{base}/transactionAmounts/transactionAcquiredDisposedCode/value", transaction.acquired_disposed),
+            create_field_provenance(f"transactions[{index}].shares_owned_following", f"{base}/postTransactionAmounts/sharesOwnedFollowingTransaction/value", transaction.shares_owned_following),
+            create_field_provenance(f"transactions[{index}].ownership", f"{base}/ownershipNature/directOrIndirectOwnership/value", transaction.ownership),
+            create_field_provenance(f"transactions[{index}].transaction_value", "derived", transaction.transaction_value, derived=True, derivation=f"{transaction.shares} * {transaction.price_per_share}"),
+        ])
+    
     return ExtractedFiling(
         source_path=str(path.resolve()),
-        source_sha256=_sha256(path),
+        source_sha256=source_sha256,
         document_type=_text(root, "documentType"),
         schema_version=_text(root, "schemaVersion"),
         period_of_report=_text(root, "periodOfReport"),
@@ -183,7 +210,7 @@ def extract_form4(source_path):
         footnotes=footnotes,
         signature_name=_text(root, "signatureName"),
         signature_date=_text(root, "signatureDate"),
-        provenance=create_provenance(source_sha256=_sha256(path), parser_version=PARSER_VERSION, schema_version=SCHEMA_VERSION).__dict__,
+        provenance=create_provenance(source_sha256=source_sha256, parser_version=PARSER_VERSION, schema_version=SCHEMA_VERSION, fields=field_provenance).__dict__,
     )
 
 
