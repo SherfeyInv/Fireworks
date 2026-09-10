@@ -14,6 +14,7 @@ TESTS = [
     "tests.test_version",
     "tests.test_negative",
     "tests.test_file_inventory",
+    "tests.test_identity",
 ]
 
 
