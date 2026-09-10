@@ -233,3 +233,30 @@ def test_audit_html_preserves_both_sides_and_non_adjudication_language(tmp_path)
     output = tmp_path / "audit.html"
     write_audit_html(report, output)
     assert output.read_text(encoding="utf-8") == html
+
+
+def test_audit_html_escapes_untrusted_values():
+    local, authoritative = sources()
+    comparison = AuditFieldComparison(field="issuer_name", local_value="<script>alert(1)</script>", authoritative_value="Apple & Co.", status="conflict", local_source=local.identifier, authoritative_source=authoritative.identifier, detail="Markup <must> be escaped")
+    report = build_audit_report("SEC Form 4 identity verification", local, authoritative, [comparison], evidence_chain("CONFLICTING", "Conflict <detected>"), provenance())
+    html = audit_html(report)
+    assert "<script>" not in html
+    assert "&lt;script&gt;alert(1)&lt;/script&gt;" in html
+    assert "Apple &amp; Co." in html
+    assert "Markup &lt;must&gt; be escaped" in html
+
+
+def test_audit_html_renders_empty_field_comparisons():
+    local, authoritative = sources()
+    report = build_audit_report("SEC Form 4 identity verification", local, authoritative, [], evidence_chain(), provenance())
+    html = audit_html(report)
+    assert "No field comparisons were recorded." in html
+
+
+def test_audit_html_renders_unavailable_values():
+    local, authoritative = sources()
+    comparison = AuditFieldComparison(field="filing_date", local_value="", authoritative_value="", status="not_available", local_source=local.identifier, authoritative_source=authoritative.identifier, detail="One or both values are unavailable")
+    report = build_audit_report("SEC Form 4 identity verification", local, authoritative, [comparison], evidence_chain("PARTIALLY_VERIFIED", "Evidence incomplete"), provenance())
+    html = audit_html(report)
+    assert html.count("[not available]") >= 2
+    assert "One or both values are unavailable" in html
