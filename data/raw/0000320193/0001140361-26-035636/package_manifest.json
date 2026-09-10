@@ -1,0 +1,42 @@
+{
+  "entity_cik": "0000320193",
+  "accession_number": "0001140361-26-035636",
+  "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035636/",
+  "index_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035636/index.json",
+  "created_at": "2026-09-10T05:25:47.855752+00:00",
+  "status": "success",
+  "files": [
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035636/0001140361-26-035636-index-headers.html",
+      "local_path": "/private/var/mobile/Containers/Data/Application/C386B592-C0F4-4F7B-8A97-930E269F3AEA/Documents/Fireworks.git/data/raw/0000320193/0001140361-26-035636/0001140361-26-035636-index-headers.html",
+      "sha256": "28826bf20f8cb0fd1436d7ecead2f113f9b617be4165c47298802650ad70d785",
+      "size_bytes": 3042,
+      "status": "success",
+      "error": null
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035636/0001140361-26-035636-index.html",
+      "local_path": "/private/var/mobile/Containers/Data/Application/C386B592-C0F4-4F7B-8A97-930E269F3AEA/Documents/Fireworks.git/data/raw/0000320193/0001140361-26-035636/0001140361-26-035636-index.html",
+      "sha256": "4eb8db0df84a4ef355bf67f66be2e246bc46f5e8ad64226c31331329f13a84e7",
+      "size_bytes": 7927,
+      "status": "success",
+      "error": null
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035636/0001140361-26-035636.txt",
+      "local_path": "/private/var/mobile/Containers/Data/Application/C386B592-C0F4-4F7B-8A97-930E269F3AEA/Documents/Fireworks.git/data/raw/0000320193/0001140361-26-035636/0001140361-26-035636.txt",
+      "sha256": "ae25c231bde9b2a34e9225e37160b148ef4b2707b0d7cdca981340fd43b7cda3",
+      "size_bytes": 4681,
+      "status": "success",
+      "error": null
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035636/form4.xml",
+      "local_path": "/private/var/mobile/Containers/Data/Application/C386B592-C0F4-4F7B-8A97-930E269F3AEA/Documents/Fireworks.git/data/raw/0000320193/0001140361-26-035636/form4.xml",
+      "sha256": "fcd091e16f995a813d107e5da4d78eaa41eb64a16a4f884cef359502642da7c1",
+      "size_bytes": 3153,
+      "status": "success",
+      "error": null
+    }
+  ]
+}

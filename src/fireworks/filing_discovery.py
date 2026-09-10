@@ -39,6 +39,9 @@ def discover_filings(cik: str) -> list[FilingRecord]:
     for i, accession in enumerate(accession_numbers):
         accession_clean = accession.replace("-", "")
         document = primary_documents[i] if i < len(primary_documents) else ""
+        form = forms[i] if i < len(forms) else ""
+        if form in {"3", "4", "5"} and document.startswith("xslF345X06/"):
+            document = f"form{form}.xml"
 
         records.append(
             FilingRecord(

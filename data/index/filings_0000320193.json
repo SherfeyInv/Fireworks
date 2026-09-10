@@ -1,6 +1,66 @@
 [
   {
     "entity_cik": "0000320193",
+    "accession_number": "0001140361-26-035636",
+    "filing_date": "2026-09-03",
+    "report_date": "2026-09-01",
+    "form": "4",
+    "primary_document": "xslF345X06/form4.xml",
+    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035636/xslF345X06/form4.xml",
+    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035636/"
+  },
+  {
+    "entity_cik": "0000320193",
+    "accession_number": "0001140361-26-035362",
+    "filing_date": "2026-09-01",
+    "report_date": "2026-09-01",
+    "form": "4",
+    "primary_document": "xslF345X06/form4.xml",
+    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035362/xslF345X06/form4.xml",
+    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035362/"
+  },
+  {
+    "entity_cik": "0000320193",
+    "accession_number": "0001140361-26-035359",
+    "filing_date": "2026-09-01",
+    "report_date": "2026-09-01",
+    "form": "3",
+    "primary_document": "xslF345X06/form3.xml",
+    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035359/xslF345X06/form3.xml",
+    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035359/"
+  },
+  {
+    "entity_cik": "0000320193",
+    "accession_number": "0001140361-26-035325",
+    "filing_date": "2026-09-01",
+    "report_date": "2026-04-17",
+    "form": "8-K/A",
+    "primary_document": "ef20081427_8ka.htm",
+    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035325/ef20081427_8ka.htm",
+    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126035325/"
+  },
+  {
+    "entity_cik": "0000320193",
+    "accession_number": "0001140361-26-034741",
+    "filing_date": "2026-08-27",
+    "report_date": "2026-08-25",
+    "form": "4",
+    "primary_document": "xslF345X06/form4.xml",
+    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126034741/xslF345X06/form4.xml",
+    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126034741/"
+  },
+  {
+    "entity_cik": "0000320193",
+    "accession_number": "0001140361-26-033928",
+    "filing_date": "2026-08-20",
+    "report_date": "2026-08-18",
+    "form": "4",
+    "primary_document": "xslF345X06/form4.xml",
+    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126033928/xslF345X06/form4.xml",
+    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126033928/"
+  },
+  {
+    "entity_cik": "0000320193",
     "accession_number": "0001140361-26-032884",
     "filing_date": "2026-08-13",
     "report_date": "2026-08-11",
@@ -9938,85 +9998,5 @@
     "primary_document": "d927922d10q.htm",
     "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515259935/d927922d10q.htm",
     "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515259935/"
-  },
-  {
-    "entity_cik": "0000320193",
-    "accession_number": "0001181431-15-008793",
-    "filing_date": "2015-07-21",
-    "report_date": "2015-07-18",
-    "form": "4",
-    "primary_document": "xslF345X03/rrd426012.xml",
-    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000118143115008793/xslF345X03/rrd426012.xml",
-    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000118143115008793/"
-  },
-  {
-    "entity_cik": "0000320193",
-    "accession_number": "0001193125-15-258464",
-    "filing_date": "2015-07-21",
-    "report_date": "2015-07-21",
-    "form": "8-K",
-    "primary_document": "d927923d8k.htm",
-    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515258464/d927923d8k.htm",
-    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515258464/"
-  },
-  {
-    "entity_cik": "0000320193",
-    "accession_number": "0001181431-15-008603",
-    "filing_date": "2015-06-26",
-    "report_date": "2015-06-24",
-    "form": "4",
-    "primary_document": "xslF345X03/rrd425932.xml",
-    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000118143115008603/xslF345X03/rrd425932.xml",
-    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000118143115008603/"
-  },
-  {
-    "entity_cik": "0000320193",
-    "accession_number": "0001193125-15-219298",
-    "filing_date": "2015-06-10",
-    "report_date": "2015-06-03",
-    "form": "8-K",
-    "primary_document": "d938654d8k.htm",
-    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515219298/d938654d8k.htm",
-    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515219298/"
-  },
-  {
-    "entity_cik": "0000320193",
-    "accession_number": "0001193125-15-213423",
-    "filing_date": "2015-06-04",
-    "report_date": "",
-    "form": "424B2",
-    "primary_document": "d933467d424b2.htm",
-    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515213423/d933467d424b2.htm",
-    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515213423/"
-  },
-  {
-    "entity_cik": "0000320193",
-    "accession_number": "0001193125-15-212514",
-    "filing_date": "2015-06-04",
-    "report_date": "",
-    "form": "FWP",
-    "primary_document": "d933467dfwp.htm",
-    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515212514/d933467dfwp.htm",
-    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515212514/"
-  },
-  {
-    "entity_cik": "0000320193",
-    "accession_number": "0001181431-15-007696",
-    "filing_date": "2015-06-01",
-    "report_date": "2015-05-28",
-    "form": "4",
-    "primary_document": "xslF345X03/rrd425345.xml",
-    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000118143115007696/xslF345X03/rrd425345.xml",
-    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000118143115007696/"
-  },
-  {
-    "entity_cik": "0000320193",
-    "accession_number": "0001193125-15-207526",
-    "filing_date": "2015-06-01",
-    "report_date": "",
-    "form": "424B2",
-    "primary_document": "d933467d424b2.htm",
-    "primary_doc_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515207526/d933467d424b2.htm",
-    "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000119312515207526/"
   }
 ]

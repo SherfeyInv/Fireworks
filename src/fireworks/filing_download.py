@@ -4,6 +4,7 @@ from pathlib import Path
 import hashlib
 import json
 import urllib.request
+import xml.etree.ElementTree as ET
 
 from .config import project_root
 from .filing_discovery import discover_filings
@@ -32,7 +33,7 @@ def _download(url: str, destination: Path) -> tuple[str, int]:
                 "Fireworks SEC research system "
                 "(contact: research@aysherintel.com)"
             ),
-            "Accept-Encoding": "gzip, deflate",
+            "Accept-Encoding": "identity",
         },
     )
 
@@ -46,6 +47,21 @@ def _download(url: str, destination: Path) -> tuple[str, int]:
 
     return sha256, len(data)
 
+
+def _validate_download(data: bytes, form: str) -> None:
+    if data[:3] == b"\x1f\x8b\x08":
+        raise ValueError("Downloaded document is gzip-compressed; expected canonical document bytes")
+    try:
+        root = ET.fromstring(data)
+    except ET.ParseError as exc:
+        raise ValueError(f"Downloaded document is not valid XML: {exc}") from exc
+    root_tag = root.tag.rsplit("}", 1)[-1]
+    if form in {"3", "4", "5"} and root_tag != "ownershipDocument":
+        raise ValueError(f"Expected ownershipDocument for Form {form}, got {root_tag}")
+    if form in {"3", "4", "5"}:
+        document_type = next((node.text.strip() for node in root.iter() if node.tag.rsplit("}", 1)[-1] == "documentType" and node.text), "")
+        if document_type != form:
+            raise ValueError(f"Expected Form {form}, XML documentType is {document_type!r}")
 
 def download_filing(record) -> DownloadRecord:
     normalized_cik = record.entity_cik.zfill(10)
@@ -66,6 +82,7 @@ def download_filing(record) -> DownloadRecord:
             record.primary_doc_url,
             destination,
         )
+        _validate_download(destination.read_bytes(), record.form)
 
         return DownloadRecord(
             entity_cik=record.entity_cik,
