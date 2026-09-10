@@ -76,6 +76,87 @@ def audit_dict(report: AuditReport) -> dict:
     return data
 
 
+def audit_text(report: AuditReport) -> str:
+    lines = [
+        "FIREWORKS AUDIT REPORT",
+        "=" * 22,
+        f"Audit version: {report.audit_version}",
+        f"Generated at: {report.generated_at}",
+        f"Scope: {report.scope}",
+        f"Determination: {report.determination}",
+        f"Determination detail: {report.determination_detail}",
+        "",
+        "LOCAL EVIDENCE",
+        "--------------",
+        f"Source type: {report.local_source.source_type}",
+        f"Identifier: {report.local_source.identifier}",
+        f"Location: {report.local_source.location}",
+        f"SHA-256: {report.local_source.sha256 or "[not available]"}",
+        f"Retrieved at: {report.local_source.retrieved_at or "[not recorded]"}",
+        "",
+        "AUTHORITATIVE EVIDENCE",
+        "---------------------",
+        f"Source type: {report.authoritative_source.source_type}",
+        f"Identifier: {report.authoritative_source.identifier}",
+        f"Location: {report.authoritative_source.location}",
+        f"SHA-256: {report.authoritative_source.sha256 or "[not available]"}",
+        f"Retrieved at: {report.authoritative_source.retrieved_at or "[not recorded]"}",
+        "",
+        "FIELD COMPARISONS",
+        "-----------------",
+    ]
+    if report.field_comparisons:
+        for comparison in report.field_comparisons:
+            lines.extend([
+                f"Field: {comparison.field}",
+                f"  Local: {comparison.local_value or "[not available]"}",
+                f"  Authoritative: {comparison.authoritative_value or "[not available]"}",
+                f"  Status: {comparison.status}",
+                f"  Local source: {comparison.local_source}",
+                f"  Authoritative source: {comparison.authoritative_source}",
+                f"  Detail: {comparison.detail or "[none]"}",
+                "",
+            ])
+    else:
+        lines.extend(["No field comparisons were recorded.", ""])
+    lines.extend([
+        "EVIDENCE CHAIN",
+        "--------------",
+    ])
+    for key, value in report.evidence_chain.items():
+        lines.append(f"{key}: {value}")
+    lines.extend([
+        "",
+        "PROVENANCE",
+        "----------",
+    ])
+    for key, value in report.provenance.items():
+        lines.append(f"{key}: {value}")
+    lines.extend([
+        "",
+        "LIMITATIONS",
+        "-----------",
+    ])
+    if report.limitations:
+        lines.extend(f"- {item}" for item in report.limitations)
+    else:
+        lines.append("None recorded.")
+    lines.extend([
+        "",
+        "DECISION AUTHORITY",
+        "------------------",
+        "Fireworks records and compares evidence. It does not determine legal ownership or adjudicate disputes.",
+        "",
+    ])
+    return "\n".join(lines)
+
+
+def write_audit_text(report: AuditReport, output_path: str | Path) -> None:
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(audit_text(report), encoding="utf-8")
+
+
 def write_audit_json(report: AuditReport, output_path: str | Path) -> None:
     output = Path(output_path)
     output.parent.mkdir(parents=True, exist_ok=True)

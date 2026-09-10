@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from fireworks.report import AuditFieldComparison, AuditSource, audit_dict, build_audit_report, write_audit_json
+from fireworks.report import AuditFieldComparison, AuditSource, audit_dict, audit_text, build_audit_report, write_audit_json, write_audit_text
 
 
 SHA256 = "fcd091e16f995a813d107e5da4d78eaa41eb64a16a4f884cef359502642da7c1"
@@ -167,3 +167,34 @@ def test_audit_accepts_production_evidence_and_provenance_dataclasses():
     assert data["determination"] == "VERIFIED"
     assert data["evidence_chain"]["sha256_match"] is True
     assert data["provenance"]["source_sha256"] == SHA256
+
+
+def test_audit_text_preserves_both_sides_and_non_adjudication_language(tmp_path):
+    local, authoritative = sources()
+    comparison = AuditFieldComparison(
+        field="issuer_cik",
+        local_value="0000320193",
+        authoritative_value="0000320193",
+        status="match",
+        local_source=local.identifier,
+        authoritative_source=authoritative.identifier,
+    )
+    report = build_audit_report(
+        "SEC Form 4 identity verification",
+        local,
+        authoritative,
+        [comparison],
+        evidence_chain(),
+        provenance(),
+        limitations=["Unavailable evidence remains unknown"],
+    )
+    text = audit_text(report)
+    assert "LOCAL EVIDENCE" in text
+    assert "AUTHORITATIVE EVIDENCE" in text
+    assert "Local: 0000320193" in text
+    assert "Authoritative: 0000320193" in text
+    assert "Unavailable evidence remains unknown" in text
+    assert "does not determine legal ownership" in text
+    output = tmp_path / "audit.txt"
+    write_audit_text(report, output)
+    assert output.read_text(encoding="utf-8") == text
